@@ -1,0 +1,31 @@
+mysql> create database INVOICE;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use INVOICE;
+Database changed
+mysql> CREATE  TABLE Customer(id int primary key,name varchar(20),address varchar(100),city varchar(50),ph_no varchar(15));
+Query OK, 0 rows affected (0.02 sec)
+mysql> CREATE  TABLE Product(pid int primary key,pname varchar(20),price decimal default'0');
+Query OK, 0 rows affected (0.02 sec)
+mysql> CREATE TABLE invoice_master (id int,inv_id INT PRIMARY KEY,id INT,inv_date DATE,FOREIGN KEY (id) REFERENCES Customer(id));
+CREATE TABLE invoice_item (inv_id int,pid int,FOREIGN KEY (inv_id) REFERE
+NCES invoice_master(inv_id), FOREIGN KEY (pid) REFERENCES Product(pid),quantity
+decimal );
+mysql> desc invoice_master;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| inv_id   | int  | NO   | PRI | NULL    |       |
+| id       | int  | YES  | MUL | NULL    |       |
+| inv_date | date | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+mysql> desc invoice_item;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| inv_id   | int           | YES  | MUL | NULL    |       |
+| pid      | int           | YES  | MUL | NULL    |       |
+| quantity | decimal(10,0) | YES  |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
