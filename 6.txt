@@ -39,7 +39,7 @@ mysql> desc employe;
 +-------+-------------+------+-----+---------+-------+
 6 rows in set (0.01 sec)
 
- //3. Delete the column ‘emp_id’ the table EMPLOYEE. 
+ //3. Delete the column ‘id’ the table EMPLOYEE. 
 mysql>  alter table employe drop id;
 Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -106,7 +106,7 @@ mysql> desc student;
 
 
  
- //6. Change the table name EMPLOYEE as PERSON 
+ //6. Change the table name employe as PERSON 
  mysql> alter table employe rename  to PERSON;
 Query OK, 0 rows affected (0.02 sec)
 
@@ -121,12 +121,12 @@ mysql> show tables;
 2 rows in set (0.00 sec)
 
 
- //7. Delete the table STUDENT1.
+ //7. Delete the table employee_dup .
 mysql> show tables;
 +-----------------+
 | Tables_in_ihsan |
 +-----------------+
-| PERSON        |
+| PERSON          |
 | employee_dup    |
 | student         |
 +-----------------+
