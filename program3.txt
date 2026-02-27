@@ -1,0 +1,191 @@
+3. TCL & DCL COMMANDS
+a) TCL COMMANDS 
+ 1. Commit 
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.01 sec)
+mysql> insert into  student   values(11,"ihsan",22,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+mysql> insert into  student   values(13,"ihsan",25,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+2. Rollback 
+
+mysql> insert into  student   values(11,"ihsan",22,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|      11 | ihsan |   22 | dd      | m      |
+|      13 | ihsan |   25 | dd      | m      |
++---------+-------+------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|      13 | ihsan |   25 | dd      | m      |
++---------+-------+------+---------+--------+
+1 row in set (0.01 sec)
+
+ 3. Savepoint
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into  student   values(11,"ihsan",22,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into  student   values(18,"ihsan",29,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update student set age=18 where 
+    -> roll_no=13;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|      11 | ihsan |   22 | dd      | m      |
+|      13 | ihsan |   18 | dd      | m      |
+|      18 | ihsan |   29 | dd      | m      |
++---------+-------+------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> savepoint sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into  student   values(1,"abin",17,"dd","m");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from student where roll_no=11;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|       1 | abin  |   17 | dd      | m      |
+|      13 | ihsan |   18 | dd      | m      |
+|      18 | ihsan |   29 | dd      | m      |
++---------+-------+------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> rollback to sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|       1 | abin  |   17 | dd      | m      |
+|      11 | ihsan |   22 | dd      | m      |
+|      13 | ihsan |   18 | dd      | m      |
+|      18 | ihsan |   29 | dd      | m      |
++---------+-------+------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> rollback to sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|      11 | ihsan |   22 | dd      | m      |
+|      13 | ihsan |   18 | dd      | m      |
+|      18 | ihsan |   29 | dd      | m      |
++---------+-------+------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from student;
++---------+-------+------+---------+--------+
+| roll_no | name  | age  | address | gender |
++---------+-------+------+---------+--------+
+|      11 | ihsan |   22 | dd      | m      |
+|      13 | ihsan |   25 | dd      | m      |
+|      18 | ihsan |   29 | dd      | m      |
++---------+-------+------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+ b) DCL COMMAND 
+  Create two users user1, user2 
+ 1. GRANT:   Give insert and select privilege to user 1 on customer table in the invoice database. 
+Give update and delete privilege to user 2 on all tables in the invoice database. 
+
+
+mysql> create user 'ihsan'@'localhost' identified by 'Ihsan@2004sql';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> grant select on INVOICE.Customer to 'ihsan'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant insert  on INVOICE.Customer to 'ihsan'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+mysql> show grants for  'ihsan'@'localhost';
++---------------------------------------------------------------------+
+| Grants for ihsan@localhost                                          |
++---------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ihsan`@`localhost`                           |
+| GRANT SELECT, INSERT ON `INVOICE`.`Customer` TO `ihsan`@`localhost` |
++---------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> create user 'ihsan2'@'localhost' identified by 'Ihsan2@2004sql';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> grant update  on INVOICE.* to 'ihsan2'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> grant delete  on INVOICE.* to 'ihsan2'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+mysql> show grants for  'ihsan'@'localhost';
++---------------------------------------------------------------------+
+| Grants for ihsan@localhost                                          |
++---------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `ihsan`@`localhost`                           |
+| GRANT SELECT, INSERT ON `INVOICE`.`Customer` TO `ihsan`@`localhost` |
++---------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+2. REVOKE:   Remove delete privilege of user 2.
+
+mysql> revoke delete on INVOICE.* from 'ihsan2'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for  'ihsan2'@'localhost';
++-----------------------------------------------------+
+| Grants for ihsan2@localhost                         |
++-----------------------------------------------------+
+| GRANT USAGE ON *.* TO `ihsan2`@`localhost`          |
+| GRANT UPDATE ON `INVOICE`.* TO `ihsan2`@`localhost` |
++-----------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
