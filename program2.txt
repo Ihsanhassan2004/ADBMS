@@ -297,8 +297,8 @@ mysql> select * from invoice_item;
 18 rows in set (0.00 sec)
  c) DML - DELETE 
  
-1. Delete the record of customer id ‘10001’. 
-mysql> delete from invoice_item where inv_id in(select inv_id from invoice_master where id=11);
+1. Delete the record of customer id ‘11’. 
+mysql> delete from invoice_item where inv_id=1004 or inv_id=1006; 
 Query OK, 4 rows affected (0.00 sec)
 
 mysql> delete from invoice_master where id=11;
@@ -327,20 +327,20 @@ mysql> select * from invoice_item;
 9 rows in set (0.00 sec)
 
 
-3. Delete the purchase details of product ‘pen’ in the in_id ‘101’. 
+3. Delete the purchase details of product ‘pen’ in the in_id ‘1001’. 
 
-mysql> delete from invoice_item where inv_id=1001 and pid=(select pid from Product where pname="pen");
+mysql> delete from invoice_item where inv_id=1001 and pid=39;
 Query OK, 1 row affected (0.01 sec)
 
-mysql> select * from invoice_item where inv_id=1001 and pid=(select pid from Pro
-duct where pname="pen");
+mysql> select * from invoice_item where inv_id=1001 and pid=39;
 Empty set (0.00 sec)
 
-4. Delete details of employees who does not have phone number.
-mysql> delete from invoice_item where inv_id in (select inv_id from invoice_master where id in(select id from Customer where ph_no is NULL) );
+
+4. Delete details of Customer who does not have phone number.
+mysql> delete from invoice_item where inv_id =1008 or inv_id=1010 or inv_id=1011;
 Query OK, 3 rows affected (0.00 sec)
 
-mysql> delete  from invoice_master where id in(select id from Customer where ph_no is NULL );
+mysql> delete  from invoice_master where id=3 or id=6;
 Query OK, 3 rows affected (0.01 sec)
 
 mysql> delete  from Customer where ph_no is NULL ;
@@ -365,10 +365,10 @@ mysql> select * from student;
 Empty set (0.00 sec)
 
 6. Delete Invoice details of a particular customer "abhin".
-mysql> delete from invoice_item where inv_id in (select inv_id from invoice_master where id in(select id from Customer where name="abhin") );
+mysql> delete from invoice_item where inv_id=1001;
 Query OK, 2 rows affected (0.01 sec)
 
-mysql> delete  from invoice_master where id in(select id from Customer where name="abhin" );
+mysql> delete  from invoice_master where id=1;
 Query OK, 2 rows affected (0.00 sec)
 
 mysql> delete   from Customer where name="abhin" ;
@@ -385,7 +385,7 @@ mysql> select * from Customer;
 3 rows in set (0.00 sec)
 
  7. Delete the first two records of INVOICE_ITEM table its purchase quantity is high.
- mysql> DELETE FROM invoice_item WHERE quantity IN (SELECT quantity FROM (SELECT quantity FROM invoice_item ORDER BY quantity DESC LIMIT 2) AS temp);
+ mysql> DELETE FROM invoice_item LIMIT 2;
 Query OK, 2 rows affected (0.00 sec)
 
 mysql> select * from invoice_item;
