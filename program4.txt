@@ -1,0 +1,61 @@
+1. List all invoice items, avoid duplicates. 
+mysql> select distinct * from invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|   1009 |  144 |        2 |
+|   1009 |   39 |        9 |
+|   1002 |  111 |        7 |
+|   1009 |  111 |        8 |
+|   1002 |  588 |        2 |
+|   1002 |  871 |        8 |
+|   1009 |  132 |        4 |
+|   1009 |  588 |        3 |
+|   1002 |  871 |        6 |
++--------+------+----------+
+9 rows in set (0.00 sec)
+
+2. List the customer details who not live in ‘calicut’.
+mysql> select *from  Customer;
++----+----------+----------+----------+----------------+
+| id | name     | address  | city     | ph_no          |
++----+----------+----------+----------+----------------+
+|  2 | ihsan    | kalppata | calicut  | +91 9099165133 |
+|  9 | siddhu   | enichira | wayanad  | +91 9988776655 |
+| 32 | dhrishya | alathur  | palakkad | +91 1234567891 |
++----+----------+----------+----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select *from  Customer where city <> 'calicut';
++----+----------+----------+----------+----------------+
+| id | name     | address  | city     | ph_no          |
++----+----------+----------+----------+----------------+
+|  9 | siddhu   | enichira | wayanad  | +91 9988776655 |
+| 32 | dhrishya | alathur  | palakkad | +91 1234567891 |
++----+----------+----------+----------+----------------+
+2 rows in set (0.00 sec)
+
+
+
+3. Display the customer details sorted in ascending by city and descending by names.
+
+mysql> select * from  Customer  order by city asc,name desc;
++----+----------+----------+----------+----------------+
+| id | name     | address  | city     | ph_no          |
++----+----------+----------+----------+----------------+
+|  2 | ihsan    | kalppata | calicut  | +91 9099165133 |
+| 32 | dhrishya | alathur  | palakkad | +91 1234567891 |
+|  9 | siddhu   | enichira | wayanad  | +91 9988776655 |
++----+----------+----------+----------+----------------+
+3 rows in set (0.00 sec)
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.names.  
+mysql> select name from  Customer where(name like '%a%' or name like '%e%')and name like '___%';
++----------+
+| name     |
++----------+
+| ihsan    |
+| dhrishya |
++----------+
+2 rows in set (0.00 sec)
+
