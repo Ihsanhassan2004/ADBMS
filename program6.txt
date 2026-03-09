@@ -21,14 +21,16 @@ mysql> select pname from Product where pid not in(select pid from invoice_item);
 
 3. List the names of all customers who have purchased at least 2 products, making sure that 
 no duplicate names are in the result.
-mysql> select distinct name from Customer where id in(select id from invoice_master where inv_id in(select inv_id from invoice_item where quantity>=2));
+mysql> select distinct name from Customer where id in(select id from invoice_master where inv_id in(select inv_id from invoice_item group by inv_id having count(inv_id)>=2));
 +----------+
 | name     |
 +----------+
 | ihsan    |
 | dhrishya |
 +----------+
-2 rows in set (0.00 sec)
+2 rows in set (0.01 sec)
+
+
 
 
 
