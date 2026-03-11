@@ -1,0 +1,40 @@
+1.Create a view for customers who have purchased products.
+mysql> CREATE VIEW viewdata as select Customer.id,Customer.name,Product.pname,invoice_master.inv_date from Customer join invoice_master on Customer.id=invoice_master.id join invoice_item on invoice_master.inv_id=invoice_item.inv_id join Product on invoice_item.pid=Product.pid;
+mysql> select * from viewdata;
++----+----------+---------+------------+
+| id | name     | pname   | inv_date   |
++----+----------+---------+------------+
+|  2 | ihsan    | toy_gun | 2025-02-22 |
+|  2 | ihsan    | toy_gun | 2025-02-22 |
+|  2 | ihsan    | cake    | 2025-02-22 |
+|  2 | ihsan    | soap    | 2025-02-22 |
+| 32 | dhrishya | cake    | 2025-06-11 |
+| 32 | dhrishya | paste   | 2025-06-11 |
+| 32 | dhrishya | cup     | 2025-06-11 |
+| 32 | dhrishya | soap    | 2025-06-11 |
+| 32 | dhrishya | pen     | 2025-06-11 |
++----+----------+---------+------------+
+9 rows in set (0.00 sec)
+
+2. Create a view for invoice products[cname, , inv_id, product_id, quantity]
+
+mysql> create view invoice_product as select Customer.name,Product.pid,invoice_master.inv_id,invoice_item.quantity from Customer join invoice_master on Customer.id=invoice_master.id join  invoice_item on invoice_master.inv_id=invoice_item.inv_id join Product on Product.pid=invoice_item.pid;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from invoice_product;
++----------+-----+--------+----------+
+| name     | pid | inv_id | quantity |
++----------+-----+--------+----------+
+| dhrishya | 144 |   1009 |        2 |
+| dhrishya |  39 |   1009 |        9 |
+| ihsan    | 111 |   1002 |        7 |
+| dhrishya | 111 |   1009 |        8 |
+| ihsan    | 588 |   1002 |        2 |
+| ihsan    | 871 |   1002 |        8 |
+| dhrishya | 132 |   1009 |        4 |
+| dhrishya | 588 |   1009 |        3 |
+| ihsan    | 871 |   1002 |        6 |
++----------+-----+--------+----------+
+9 rows in set (0.01 sec)
+
+
