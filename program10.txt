@@ -17,21 +17,25 @@ Query OK, 0 rows affected (0.00 sec)
 
 2. Create a procedure to display invoice details of a particular customer.
 
-mysql> create procedure cd1(cid int) begin select Customer.name,invoice_master.inv_date,invoice_item.inv_id from Customer join invoice_master on Customer.id=invoice_master.id join invoice_item on invoice_master.inv_id=invoice_item.inv_id where cid=Customer.id ; end//
+mysql> create procedure cus_details(cid int) begin select Customer.id,Customer.name,invoice_master.inv_date,invoice_item.inv_id,invoice_item.quantity,Product.pi
+d from Customer join invoice_master on Customer.id=invoice_master.id join invoic
+e_item on invoice_master.inv_id=invoice_item.inv_id join Product on Product.pid=invoice_item.pid  where cid=Customer.id ; end//
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> call cd1(2)//
-+-------+------------+--------+
-| name  | inv_date   | inv_id |
-+-------+------------+--------+
-| ihsan | 2025-02-22 |   1002 |
-| ihsan | 2025-02-22 |   1002 |
-| ihsan | 2025-02-22 |   1002 |
-| ihsan | 2025-02-22 |   1002 |
-+-------+------------+--------+
-4 rows in set (0.00 sec)
+mysql> call cus_details(2)//
++----+-------+------------+--------+----------+-----+
+| id | name  | inv_date   | inv_id | quantity | pid |
++----+-------+------------+--------+----------+-----+
+|  2 | ihsan | 2025-02-22 |   1002 |        7 | 111 |
+|  2 | ihsan | 2025-02-22 |   1002 |        2 | 588 |
+|  2 | ihsan | 2025-02-22 |   1002 |        8 | 871 |
+|  2 | ihsan | 2025-02-22 |   1002 |        6 | 871 |
++----+-------+------------+--------+----------+-----+
+4 rows in set (0.01 sec)
 
-Query OK, 0 rows affected (0.00 sec)
+Query OK, 0 rows affected (0.01 sec)
+
+
 
 
 
