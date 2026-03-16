@@ -1,0 +1,78 @@
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER, 
+PRODUCT) and its corresponding documents. 
+test> use INVOICE
+switched to db INVOICE
+INVOICE> db.createCollection("Customer")
+{ ok: 1 }
+INVOICE> db.Customer.insertMany([{id:1,name:"ihsan",city:"calicut"},{id:2,name:"shifan",city:"malappuram"},{id:3,name:"sidhu",city:"wayanad"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7a851e61390bd4e8563b1'),
+    '1': ObjectId('69b7a851e61390bd4e8563b2'),
+    '2': ObjectId('69b7a851e61390bd4e8563b3')
+  }
+}
+INVOICE> db.Product.insertMany([{pid:101,pname:"laptop",price:50000},{pid:102,pname:"mobile",price:20000},{pid:103,pname:"tablet",price:15000}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7a93fe61390bd4e8563b4'),
+    '1': ObjectId('69b7a93fe61390bd4e8563b5'),
+    '2': ObjectId('69b7a93fe61390bd4e8563b6')
+  }
+}
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER 
+INVOICE> db.Customer.find()
+[
+  {
+    _id: ObjectId('69b7a851e61390bd4e8563b1'),
+    id: 1,
+    name: 'ihsan',
+    city: 'calicut'
+  },
+  {
+    _id: ObjectId('69b7a851e61390bd4e8563b2'),
+    id: 2,
+    name: 'shifan',
+    city: 'malappuram'
+  },
+  {
+    _id: ObjectId('69b7a851e61390bd4e8563b3'),
+    id: 3,
+    name: 'sidhu',
+    city: 'wayanad'
+  }
+]
+
+ 3. Write a MongoDB query to update the city in the collection CUSTOMER. 
+ INVOICE> db.Customer.updateOne({city:"malappuram"},{$set: {city:"kochi"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+INVOICE> db.Customer.find({city:"malappuram"})
+
+INVOICE> db.Customer.find({city:"kochi"})
+[
+  {
+    _id: ObjectId('69b7a851e61390bd4e8563b2'),
+    id: 2,
+    name: 'shifan',
+    city: 'kochi'
+  }
+]
+
+
+ 4. Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+ 
+INVOICE> db.Customer.deleteOne({city:"calicut"})
+{ acknowledged: true, deletedCount: 1 }
+INVOICE> db.Customer.find({city:"calicut"})
+
+
