@@ -1,0 +1,45 @@
+1. Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database.
+
+test> db.createUser({user: "ihsan1",pwd: "ihsan123",roles: [{ role: "read", db: "INVOICE" }]})
+{ ok: 1 }
+test> db.getUser("ihsan1")
+{
+  _id: 'test.ihsan1',
+  userId: UUID('96cbf554-5f21-48d4-a1a2-14a1bebd9dcd'),
+  user: 'ihsan1',
+  db: 'test',
+  roles: [ { role: 'read', db: 'INVOICE' } ],
+  mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+}
+
+2. Write a MongoDB query to create the backup for the INVOICE database.
+(base) ksb@ksb-H410M-S2-V2:~$ mongodump --db INVOICE
+2026-03-19T14:55:28.892+0530	writing INVOICE.Customer to dump/INVOICE/Customer.bson
+2026-03-19T14:55:28.892+0530	writing INVOICE.Product to dump/INVOICE/Product.bson
+2026-03-19T14:55:28.893+0530	done dumping INVOICE.Customer (4 documents)
+2026-03-19T14:55:28.893+0530	done dumping INVOICE.Product (3 documents)
+
+
+3. Write a MongoDB query to restore a particular database or a collection.
+(base) ksb@ksb-H410M-S2-V2:~$ sudo mongodump --db DUMMY --out /backup/DUMMY_backup
+2026-03-19T15:03:07.782+0530	writing DUMMY.CUSTOMER to /backup/DUMMY_backup/DUMMY/CUSTOMER.bson
+2026-03-19T15:03:07.782+0530	done dumping DUMMY.CUSTOMER (0 documents)
+
+DUMMY> db.dropDatabase()
+{ ok: 1, dropped: 'DUMMY' }
+
+(base) ksb@ksb-H410M-S2-V2:~$ mongorestore --db DUMMY /backup/DUMMY_backup/DUMMY
+2026-03-19T15:07:26.752+0530	The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2026-03-19T15:07:26.752+0530	building a list of collections to restore from /backup/DUMMY_backup/DUMMY dir
+2026-03-19T15:07:26.752+0530	don't know what to do with file "/backup/DUMMY_backup/DUMMY/prelude.json", skipping...
+2026-03-19T15:07:26.752+0530	reading metadata for DUMMY.CUSTOMER from /backup/DUMMY_backup/DUMMY/CUSTOMER.metadata.json
+2026-03-19T15:07:26.760+0530	restoring DUMMY.CUSTOMER from /backup/DUMMY_backup/DUMMY/CUSTOMER.bson
+2026-03-19T15:07:26.770+0530	finished restoring DUMMY.CUSTOMER (0 documents, 0 failures)
+2026-03-19T15:07:26.770+0530	no indexes to restore for collection DUMMY.CUSTOMER
+2026-03-19T15:07:26.770+0530	0 document(s) restored successfully. 0 document(s) failed to restore.
+
+
+4. Write a MongoDB query to create an index for the collection customer using the field customer_name.
+INVOICE> db.Customer.createIndex({ customer_name: 1 })
+customer_name_1
+
